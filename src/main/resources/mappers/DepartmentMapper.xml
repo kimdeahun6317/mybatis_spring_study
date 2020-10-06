@@ -11,7 +11,7 @@
 	</select>
 	
 	<insert id="insertDepartment" parameterType="Department">
-		INSERT INTO DEPARTMENT VALUES(#{deptNo},#{deptName},#{floor})
+		INSERT INTO DEPARTMENT(DEPTNO,DEPTNAME,FLOOR) VALUES(#{deptNo},#{deptName},#{floor})
 	</insert>
 	
 	<update id="updateDepartment" parameterType="Department">
