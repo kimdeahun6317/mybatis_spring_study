@@ -30,52 +30,53 @@ public class transactionServiceTest {
 
 	@Autowired
 	private transactionService service;
-	
-	
+
 	@Test(expected = DuplicateKeyException.class)
 	public void testARegisterTransaction_Dept_Fail() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
-		Department department= new Department(1, "태스크포스", 10); // DuplicateKeyException
-		Employee employee= new Employee(1004, "박신혜", "과장", new Employee(4377), 4100000, department);
-		service.registerTransaction(department, employee);
-	}
-	@Test(expected = DuplicateKeyException.class)
-	public void testBRegisterTransaction_Emp_Fail() {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
-		Department department= new Department(6, "태스크포스", 10); // DuplicateKeyException
-		Employee employee= new Employee(4377, "박신혜", "과장", new Employee(4377), 4100000, department);
-		service.registerTransaction(department, employee);
-	}
-	@Test
-	public void testCRegisterTransaction() {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
-		Department department= new Department(6, "태스크포스", 10); // DuplicateKeyException
-		Employee employee= new Employee(1005, "박신혜", "과장", new Employee(4377), 4100000, department);
+		Department department = new Department(1, "태스크포스", 10); // DuplicateKeyException
+		Employee employee = new Employee(1004, "박신혜", "과장", new Employee(4377), 4100000, department);
 		service.registerTransaction(department, employee);
 	}
 
-	@Test(expected=RuntimeException.class)
+	@Test(expected = DuplicateKeyException.class)
+	public void testBRegisterTransaction_Emp_Fail() {
+		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
+		Department department = new Department(6, "태스크포스", 10); // DuplicateKeyException
+		Employee employee = new Employee(4377, "박신혜", "과장", new Employee(4377), 4100000, department);
+		service.registerTransaction(department, employee);
+	}
+
+	@Test
+	public void testCRegisterTransaction() {
+		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
+		Department department = new Department(6, "태스크포스", 10); // DuplicateKeyException
+		Employee employee = new Employee(1005, "박신혜", "과장", new Employee(4377), 4100000, department);
+		service.registerTransaction(department, employee);
+	}
+
+	@Test(expected = RuntimeException.class)
 	public void testDUnRegisterTransaction() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
-		Department department= new Department(100); // RuntimeException -> rollback
-		Employee employee= new Employee(1005); // rollback 되므로삭제되면안됨
+		Department department = new Department(100); // RuntimeException -> rollback
+		Employee employee = new Employee(1005); // rollback 되므로삭제되면안됨
 		service.unRegisterTransaction(department, employee);
 	}
-	
-	@Test(expected=RuntimeException.class)
+
+	@Test(expected = RuntimeException.class)
 	public void testEUnRegisterTransaction() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
-		Department department= new Department(100); // RuntimeException -> rollback
-		Employee employee= new Employee(9999); // rollback 되므로삭제되면안됨
+		Department department = new Department(100); // RuntimeException -> rollback
+		Employee employee = new Employee(9999); // rollback 되므로삭제되면안됨
 		service.unRegisterTransaction(department, employee);
 	}
-	
-	/*
-	 * @Test(expected=RuntimeException.class) public void
-	 * testFUnRegisterTransaction() {
-	 * log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
-	 * Department department= new Department(6); // RuntimeException -> rollback
-	 * Employee employee= new Employee(1005); // rollback 되므로삭제되면안됨
-	 * service.unRegisterTransaction(department, employee); }
-	 */
+
+	@Test
+	public void testFUnRegisterTransaction() {
+		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName() + "()");
+		Department department = new Department(6); // RuntimeException -> rollback
+		Employee employee = new Employee(1005); // rollback 되므로삭제되면안됨
+		service.unRegisterTransaction(department, employee);
+	}
+
 }
